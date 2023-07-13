@@ -1,4 +1,4 @@
-package com.ms.image.stream.requestor.api.service.createImageStream.supportingServices;
+package com.ms.image.stream.requestor.api.service.createImageStream;
 
 import com.ms.image.stream.requestor.api.model.CreateImageStreamAPIRequest;
 import org.slf4j.Logger;

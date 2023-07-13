@@ -13,10 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @SpringBootApplication
-public class ImageStreamRequestorMSServiceApplication {
+public class ImageStreamRequestorServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ImageStreamRequestorMSServiceApplication.class, args);
+        SpringApplication.run(ImageStreamRequestorServiceApplication.class, args);
     }
 
 }

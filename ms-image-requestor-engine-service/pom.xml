@@ -58,16 +58,21 @@
 <!--			<groupId>com.solacesystems</groupId>-->
 <!--			<artifactId>sol-jms</artifactId>-->
 <!--			<version>10.17.0</version>-->
-<!--		</dependency>-->
+<!--&lt;!&ndash;		</dependency>&ndash;&gt;-->
 		<dependency>
 			<groupId>com.solacesystems</groupId>
 			<artifactId>sol-jms</artifactId>
-			<version>10.4.0</version>
+			<version>10.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.solacesystems</groupId>
 			<artifactId>sol-jcsmp</artifactId>
-			<version>10.4.0</version>
+			<version>10.17.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.solace.spring.boot</groupId>
+			<artifactId>solace-java-spring-boot-starter</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 
 		<!-- PROJECT SPECIFIC DEPENDENCY START -->
