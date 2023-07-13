@@ -1,10 +1,10 @@
-## Solace E-Commerce Spring Boot POC Demo using Solace JAVA API
+## Solace EDA-POC Spring Boot Demo using Solace JAVA API
 
 ## Author : Shreejit Panchal
-## Microservice : ms-order-service
+## Microservice : ms-image-requestor-engine-service
 
 ## Git Repo
-[Git Repo Path] https://github.com/shreejitpanchal/E-Commerce-EDA-Springboot-Project/tree/main/ms-order-service
+[Git Repo Path] https://github.com/shreejitpanchal/spring-boot-event-streaming-poc/tree/main/ms-image-requestor-engine-service
 
 
 ## Prerequisites
@@ -13,7 +13,7 @@ https://projectlombok.org/setup/intellij
 
 3: Maven Steps for Build & Install below:
 ``` bash
-cd ms-order-service
+cd ms-image-requestor-engine-service
 mvn clean install
 ```
 
@@ -22,14 +22,14 @@ mvn clean install
 To try individual samples, go into the project directory and run the sample using maven.
 
 ``` bash
-cd ms-order-service
+cd ms-image-requestor-engine-service
 mvn spring-boot:run
 
 Browse Swagger API to fire input
 http://localhost:9991/swagger-ui.html
 
 Browse H2 Database for lookup
-http://localhost:9991/h2/
+http://localhost:9991/h2-ui/
 ```
 
 ### Setting up your preferred IDE
