@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.1.RELEASE</version>
+		<version>3.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.solace</groupId>
@@ -15,7 +15,7 @@
 	<description>Solace Event Streaming POC image-requestor-engine-service MS project</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -38,11 +38,38 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework</groupId>-->
+<!--			<artifactId>spring-jms</artifactId>-->
+<!--			<version>6.0.9</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.solacesystems</groupId>-->
+<!--			<artifactId>sol-jms-jakarta</artifactId>-->
+<!--			<version>10.20.0</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.apache.geronimo.specs</groupId>-->
+<!--			<artifactId>geronimo-jms_1.1_spec</artifactId>-->
+<!--			<version>1.1.1</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.solacesystems</groupId>-->
+<!--			<artifactId>sol-jms</artifactId>-->
+<!--			<version>10.17.0</version>-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>com.solace.spring.boot</groupId>
-			<artifactId>solace-java-spring-boot-starter</artifactId>
-			<version>4.2.1</version>
+			<groupId>com.solacesystems</groupId>
+			<artifactId>sol-jms</artifactId>
+			<version>10.4.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.solacesystems</groupId>
+			<artifactId>sol-jcsmp</artifactId>
+			<version>10.4.0</version>
+		</dependency>
+
 		<!-- PROJECT SPECIFIC DEPENDENCY START -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -56,14 +83,9 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.7.0</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
