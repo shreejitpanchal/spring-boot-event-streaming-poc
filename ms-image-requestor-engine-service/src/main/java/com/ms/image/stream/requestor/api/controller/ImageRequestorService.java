@@ -34,7 +34,7 @@ public class ImageRequestorService {
     }
 
     @RequestMapping(value = "/inquiryimagestream", consumes = "application/json",
-            produces = "application/json", method = RequestMethod.POST)
+            produces = "application/json", method = RequestMethod.GET)
     public InquiryImageStreamAPIResponse InquiryCustomerMaster(
             //@Valid
             @RequestBody InquiryImageStreamAPIRequest apiRequest) {

@@ -26,7 +26,7 @@ public class UpdateImageStreamResponse {
         try {
             transactionID = msg.getProperties().getString("JMS_Solace_HTTP_field_transcationid");
             logger.info("Property Value of transcationid -->" + transactionID);
-            ImageRequestorDTO = imageRequestorServiceRepository.findImageByTransactionId(transactionID);
+            ImageRequestorDTO = imageRequestorServiceRepository.findImageByOptionalTransactionId(transactionID);
             logger.info("Step-2 === Locate Database record - ImageRequestorDTO.isPresentFlag =" + ImageRequestorDTO.isPresent());
             ImageRequestorDTO.get().setImageRawData(((BytesMessage) msg).getData());
             imageRequestorServiceRepository.save(ImageRequestorDTO.get());

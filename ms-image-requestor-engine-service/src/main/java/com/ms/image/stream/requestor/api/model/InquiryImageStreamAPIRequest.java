@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 public class InquiryImageStreamAPIRequest {
-    private String customerName;
+    private String transactionId;
 
 }
