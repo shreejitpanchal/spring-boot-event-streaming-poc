@@ -34,9 +34,9 @@ public class EDAPublishCreateImageEventRequest {
         private String imageFileName;
         private String imageType;
 
-        @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss.SSS", locale = "en_SG", timezone = "Asia/Singapore")
-        @JsonSerialize(using = ZonedDateTimeSerializer.class)
-        private ZonedDateTime requestDateTime;
+//        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+//        @JsonSerialize(using = ZonedDateTimeSerializer.class)
+        private String requestDateTime;
     }
 
 }

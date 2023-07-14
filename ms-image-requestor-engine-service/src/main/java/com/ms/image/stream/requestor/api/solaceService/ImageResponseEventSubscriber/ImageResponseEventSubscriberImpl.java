@@ -17,7 +17,7 @@ import java.util.concurrent.CountDownLatch;
 public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageResponseEventSubscriberImpl.class);
-    public static String subFileUploadDir = "/temp";
+    public static String subFileUploadDir = "c:/temp/imagerequestor/";
     @Value("${eda.poc.image.service.provider.response}")
     private String queueName;
     @Autowired
@@ -25,7 +25,7 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
     @Autowired
     private UpdateImageStreamResponse updateImageStreamResponse;
     //private String byteMessage;
-
+    String fileLocation;
     public void run(String... strings) throws Exception {
         final JCSMPSession session = solaceFactory.createSession();
         session.connect();
@@ -38,7 +38,7 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
         session.provision(queue, endpointProps, JCSMPSession.FLAG_IGNORE_ALREADY_EXISTS);
 
         final CountDownLatch latch = new CountDownLatch(1);
-        logger.info("ImageResponseEventSubscriberImpl Attempting to bind to the queue '%s' on the appliance.%n", queueName);
+        logger.info("ImageResponseEventSubscriberImpl Attempting to bind to the queue '%s' .%n", queueName);
 
         // Create a Flow be able to bind to and consume messages from the Queue.
         final ConsumerFlowProperties flow_prop = new ConsumerFlowProperties();
@@ -56,17 +56,18 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
                     logger.info("Unsupported type for this interface should be ByteMessage Type");
                 } else {
                     try {
-                        logger.info("Property Value of Solace-Message-ID -->" + msg.getProperties().getString("JMS_Solace_HTTP_field_imageid"));
+                        logger.info("Property Value of JMS_Solace_HTTP_field_transcationid -->" + msg.getProperties().getString("JMS_Solace_HTTP_field_transcationid"));
+                        logger.info("Property Value of Solace_fileName.fileExtension -->" + msg.getProperties().getString("Solace_fileName.fileExtension"));
+                        fileLocation =  subFileUploadDir + "/" + msg.getProperties().getString("Solace_fileName.fileExtension");
                     } catch (SDTException e) {
                         throw new RuntimeException(e);
                     }
-                    //byteMessage = new String(((BytesMessage) msg).getData());
                     logger.info("Message received.");
-                    File file = new File(subFileUploadDir + "/" + "dump.jpeg");
-
-                    try (FileOutputStream fos = new FileOutputStream(file);
-                         BufferedOutputStream bos = new BufferedOutputStream(fos);
-                         DataOutputStream dos = new DataOutputStream(bos)) {
+                    File file = new File(fileLocation);
+                    try
+                            (FileOutputStream fos = new FileOutputStream(file);
+                             BufferedOutputStream bos = new BufferedOutputStream(fos);
+                             DataOutputStream dos = new DataOutputStream(bos)) {
                         dos.write(((BytesMessage) msg).getData()); // Write Bytes to File Stream
                         logger.info("Successfully written data to the file");
 

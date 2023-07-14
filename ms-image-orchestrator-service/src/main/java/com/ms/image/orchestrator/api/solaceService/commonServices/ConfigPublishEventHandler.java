@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.ms.image.orchestrator.api.service.commonServices;
+package com.ms.image.orchestrator.api.solaceService.commonServices;
 
 import com.solacesystems.jcsmp.JCSMPException;
 import com.solacesystems.jcsmp.JCSMPStreamingPublishEventHandler;

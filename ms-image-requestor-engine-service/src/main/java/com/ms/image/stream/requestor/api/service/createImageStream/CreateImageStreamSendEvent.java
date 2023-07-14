@@ -51,7 +51,7 @@ public class CreateImageStreamSendEvent {
                         .requestDateTime(apiRequest.getImageRequest().getRequestDateTime())
                         .build())
                 .transactionId(apiRequest.getTransactionId())
-                .correlationId(apiRequest.getTransactionId())
+                .correlationId(apiRequest.getCorrelationId())
                 .build();
 
         try {
