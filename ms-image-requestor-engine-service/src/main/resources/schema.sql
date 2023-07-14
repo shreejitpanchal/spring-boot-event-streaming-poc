@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS image_service (
   image_type VARCHAR(250) NOT NULL,
   image_stream_status VARCHAR(250) DEFAULT NULL,
   image_stream_desc VARCHAR(250) DEFAULT NULL,
+  image_raw_data blob(10000) DEFAULT NULL,
   correlation_id VARCHAR(250) DEFAULT NULL,
   transaction_id VARCHAR(250) DEFAULT NULL,
   request_datetime VARCHAR(250) DEFAULT NULL,

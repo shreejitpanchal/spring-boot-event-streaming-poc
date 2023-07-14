@@ -50,6 +50,10 @@ public class ImageRequestorService {
     @Column(name = "image_stream_desc")
     private String imageStreamDesc;
 
+    @Lob
+    @Column(name = "image_raw_data", columnDefinition="BLOB")
+    private byte[] imageRawData;
+
     @Column(name = "correlation_id")
     private String correlationId;
 

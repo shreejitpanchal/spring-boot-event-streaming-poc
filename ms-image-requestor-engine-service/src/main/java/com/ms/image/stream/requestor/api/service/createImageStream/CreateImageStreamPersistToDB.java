@@ -3,7 +3,7 @@ package com.ms.image.stream.requestor.api.service.createImageStream;
 import com.ms.image.stream.requestor.api.entity.ImageRequestorService;
 import com.ms.image.stream.requestor.api.model.CreateImageStreamAPIRequest;
 import com.ms.image.stream.requestor.api.model.CreateImageStreamAPIResponse;
-import com.ms.image.stream.requestor.api.repository.ImageServiceRepository;
+import com.ms.image.stream.requestor.api.repository.ImageRequestorServiceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class CreateImageStreamPersistToDB {
 
     Logger logger = LoggerFactory.getLogger(CreateImageStreamPersistToDB.class);
     @Autowired
-    private ImageServiceRepository imageServiceRepository;
+    private ImageRequestorServiceRepository imageRequestorServiceRepository;
     @Value("${eda.order.initial.status.value}")
     private String initialStatusValue;
 
@@ -33,7 +33,7 @@ public class CreateImageStreamPersistToDB {
         try {
             logger.info("Step-2 === Init imageService DB === Start print time" + currrentDateTime);
 
-            imageServiceRepository.save(ImageRequestorService.builder()
+            imageRequestorServiceRepository.save(ImageRequestorService.builder()
                     .imageId(imageId)
                     .userId(apiRequest.getImageRequest().getUserId())
                     .customerName(apiRequest.getImageRequest().getCustomerName())
