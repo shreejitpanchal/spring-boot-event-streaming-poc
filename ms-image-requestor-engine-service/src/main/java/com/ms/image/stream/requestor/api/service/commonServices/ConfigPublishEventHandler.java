@@ -22,7 +22,9 @@ import com.solacesystems.jcsmp.JCSMPException;
 import com.solacesystems.jcsmp.JCSMPStreamingPublishEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConfigPublishEventHandler implements JCSMPStreamingPublishEventHandler {
     private static final Logger logger = LoggerFactory.getLogger(ConfigPublishEventHandler.class);
 

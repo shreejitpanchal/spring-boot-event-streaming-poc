@@ -4,7 +4,6 @@ import com.ms.image.stream.requestor.api.entity.ImageRequestorService;
 import com.ms.image.stream.requestor.api.model.CreateImageStreamAPIRequest;
 import com.ms.image.stream.requestor.api.model.CreateImageStreamAPIResponse;
 import com.ms.image.stream.requestor.api.repository.ImageServiceRepository;
-//import com.ms.image.stream.requestor.api.service.commonServices.PublishImageEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +26,12 @@ public class CreateImageStreamPersistToDB {
     Logger logger = LoggerFactory.getLogger(CreateImageStreamPersistToDB.class);
     @Autowired
     private ImageServiceRepository imageServiceRepository;
-//    @Autowired
-//    private PublishImageEvent publishImageEvent;
-
     @Value("${eda.order.initial.status.value}")
     private String initialStatusValue;
 
     public boolean saveOrderRecord(CreateImageStreamAPIRequest apiRequest, CreateImageStreamAPIResponse.imageResponse imageResponseDtl, String imageId, LocalDateTime currrentDateTime) {
         try {
-            logger.info("Step-2 === Init imageService DB === Start print time"+currrentDateTime);
+            logger.info("Step-2 === Init imageService DB === Start print time" + currrentDateTime);
 
             imageServiceRepository.save(ImageRequestorService.builder()
                     .imageId(imageId)
@@ -44,7 +40,7 @@ public class CreateImageStreamPersistToDB {
                     .imageFileName(apiRequest.getImageRequest().getImageFileName())
                     .imageType(apiRequest.getImageRequest().getImageType())
                     .requestDateTime(apiRequest.getImageRequest().getRequestDateTime())
-                    .createdDateTime(LocalDateTime.now().atZone(ZoneId.of("Asia/Kuala_Lumpur")))
+                    .createdDateTime(LocalDateTime.now().atZone(ZoneId.of("Asia/Singapore")))
                     .createdBy("API")
                     .imageStreamStatus(initialStatusValue)
                     .imageStreamDesc("Published Event to EDA Stream")
@@ -53,11 +49,6 @@ public class CreateImageStreamPersistToDB {
                     .build());
 
             logger.info("Step-2.1 === Init ImageService DB === End");
-            //boolean response = publishImageEvent.sendEvent(apiRequest, imageId);
-//            if (!response) {
-//                logger.error("Step-2.2 === createImage Publish Method return false");
-//                return true;
-//            }
 
         } catch (Exception e) {
             logger.error("Step-2-Err === createImage InvokeEDA Method Error ==> error:" + e.getMessage());

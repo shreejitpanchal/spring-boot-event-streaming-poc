@@ -1,7 +1,7 @@
 package com.ms.image.stream.requestor.api.config;
 
 import com.ms.image.stream.requestor.api.model.SolaceJmsExceptionListener;
-import com.ms.image.stream.requestor.api.solace.EventImageStreamResponseListner;
+import com.ms.image.stream.requestor.api.solaceService.ImageResponseEventSubscriber.ImageResponseEventSubscriberImpl;
 import com.solacesystems.jms.SolConnectionFactory;
 import com.solacesystems.jms.SolJmsUtility;
 import org.slf4j.Logger;
@@ -23,9 +23,9 @@ import javax.jms.Queue;
  * @date 11/07/2023
  */
 @Configuration
-public class SolaceBeanConfig {
+public class SolaceBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(SolaceBeanConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(SolaceBean.class);
 
     @Autowired
     private Environment environment;
@@ -45,8 +45,8 @@ public class SolaceBeanConfig {
     }
 
     @Bean
-    public EventImageStreamResponseListner imageResponseJmsMessageListener() {
-        return new EventImageStreamResponseListner();
+    public ImageResponseEventSubscriberImpl imageResponseJmsMessageListener() {
+        return new ImageResponseEventSubscriberImpl();
     }
 
     @Bean(destroyMethod = "close")

@@ -8,12 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 
- /**
+/**
  * Create Image Processing Service
  *
  * @author Shreejit Panchal
@@ -29,11 +30,12 @@ public class CreateImageStreamImpl implements CreateImageStream {
     private CreateImageStreamAPIResponse apiResponse;
     @Autowired
     private ImageServiceRepository imageServiceRepository;
-//    @Autowired
-//    private PublishImageEvent publishImageEvent;
 
     @Autowired
     private CreateImageStreamPersistToDB createImageStreamPersistToDB;
+
+    @Autowired
+    private CreateImageStreamSendEvent createImageStreamSendEvent;
 
     @Autowired
     private CreateImageStreamValidation createImageStreamValidation;
@@ -65,9 +67,16 @@ public class CreateImageStreamImpl implements CreateImageStream {
 
         if (createImageStreamPersistToDB.saveOrderRecord(apiRequest, imageResponseDtl, imageId, currrentDateTime))
             return CreateImageStreamAPIResponse.builder()
-                    .imageResponse(imageResponseDtl.builder().imageStreamStatus("Error").build())
+                    .imageResponse(imageResponseDtl.builder().imageStreamStatus("Error").imageStreamDesc("DB-Persist-Err").build())
                     .correlationId(apiRequest.getCorrelationId())
                     .build();
+
+        if (createImageStreamSendEvent.sendEvent(apiRequest, imageId))
+            return CreateImageStreamAPIResponse.builder()
+                    .imageResponse(imageResponseDtl.builder().imageStreamStatus("Error").imageStreamDesc("Send-Event-Err").build())
+                    .correlationId(apiRequest.getCorrelationId())
+                    .build();
+
 
         logger.info("Step-3 === createImageStream Successful ==> End");
         return CreateImageStreamAPIResponse.builder()
@@ -77,7 +86,7 @@ public class CreateImageStreamImpl implements CreateImageStream {
                         .imageFileName(apiRequest.getImageRequest().getImageFileName())
                         .requestDateTime(apiRequest.getImageRequest().getRequestDateTime())
                         .imageStreamStatus(initialStatusValue)
-                        .imageStreamDesc("Published Event to EDA")
+                        .imageStreamDesc("Published Event to EDA Successfully")
                         .build())
                 .build();
     }
