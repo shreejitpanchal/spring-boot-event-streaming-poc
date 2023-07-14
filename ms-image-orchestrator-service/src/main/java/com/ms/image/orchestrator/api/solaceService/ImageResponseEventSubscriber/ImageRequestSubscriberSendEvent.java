@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Persist Records to DB creating order
  *
  * @author Shreejit Panchal
  * @version 1.0
@@ -29,8 +28,6 @@ public class ImageRequestSubscriberSendEvent {
     private String topicName;
     @Autowired
     private SpringJCSMPFactory solaceFactory;
-//    @Autowired(required = false)
-//    private JCSMPProperties jcsmpProperties;
 
     @Autowired
     private ConfigPublishEventHandler configPublishEventHandler;
