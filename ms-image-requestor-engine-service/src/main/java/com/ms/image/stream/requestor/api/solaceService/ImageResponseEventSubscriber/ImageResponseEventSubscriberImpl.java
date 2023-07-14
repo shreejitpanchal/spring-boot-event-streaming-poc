@@ -63,6 +63,7 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
                         throw new RuntimeException(e);
                     }
                     logger.info("Message received.");
+                    msg.ackMessage();
                     File file = new File(fileLocation);
                     try
                             (FileOutputStream fos = new FileOutputStream(file);
