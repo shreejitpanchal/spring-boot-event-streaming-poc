@@ -15,7 +15,7 @@ import java.util.concurrent.CountDownLatch;
 public class ImageRequestEventSubscriberImpl implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageRequestEventSubscriberImpl.class);
-    public static String subFileUploadDir = "/temp/imagehub";
+
     @Value("${eda.poc.image.service.provider.request}")
     private String queueName;
     @Autowired

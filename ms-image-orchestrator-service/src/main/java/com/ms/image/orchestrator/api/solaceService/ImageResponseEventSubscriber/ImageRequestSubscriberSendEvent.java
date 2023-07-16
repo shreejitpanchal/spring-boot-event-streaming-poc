@@ -14,21 +14,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- *
  * @author Shreejit Panchal
  * @version 1.0
  * @date 11/07/2023
  */
 @Service
 public class ImageRequestSubscriberSendEvent {
-
+    @Value("${app.image.orchestrator.hub.path}")
+    private String imageHubFolder;
     Logger logger = LoggerFactory.getLogger(ImageRequestSubscriberSendEvent.class);
-
     @Value("${eda.poc.image.service.reply.publish.topic}")
     private String topicName;
     @Autowired
     private SpringJCSMPFactory solaceFactory;
+    byte[] data = new byte[0];
 
+    public boolean imagePresentFlag=true;
     @Autowired
     private ConfigPublishEventHandler configPublishEventHandler;
 
@@ -36,18 +37,19 @@ public class ImageRequestSubscriberSendEvent {
         logger.info("ImageRequestSubscriberSendEvent API === Request ==> Start");
         topicName += apiRequest.getImage().getImageId() + "/" + apiRequest.getImage().getUserId() + "/" + apiRequest.getImage().getImageFileName() + "/" + apiRequest.getImage().getImageType(); // Add ImageFileName and Image Type in Topic Hierarchy of the event
         final Topic topic = JCSMPFactory.onlyInstance().createTopic(topicName);
-        String absolutePath ="C:/temp/imagehub/"+apiRequest.getImage().getImageFileName()+"."+apiRequest.getImage().getImageType();
-        logger.info("absolutePath log ==>"+absolutePath);
-        Path path = Paths.get(absolutePath);
-        byte[] data = new byte[0];
+
+        String localFileHolder = imageHubFolder + apiRequest.getImage().getImageFileName() + "." + apiRequest.getImage().getImageType();
+        logger.info("Loading Image from Hub via path ==>" + localFileHolder);
+        Path path = Paths.get(localFileHolder);
 
         try {
             data = Files.readAllBytes(path);
         } catch (Exception e) {
+            imagePresentFlag=false;
             logger.error("ImageRequestSubscriberSendEvent Error while reading file - " + e.getStackTrace());
         }
 
-        logger.info("ImageRequestSubscriberSendEvent Step 2 === EDA Topic publish on : " + topicName );
+        logger.info("ImageRequestSubscriberSendEvent Step 2 === EDA Topic publish on : " + topicName);
 
         try {
 
@@ -58,7 +60,14 @@ public class ImageRequestSubscriberSendEvent {
 
             SDTMap map = pubEventObj.createMap();
             map.putString("JMS_Solace_HTTP_field_transcationid", apiRequest.getTransactionId());
-            map.putString("Solace_fileName.fileExtension", apiRequest.getImage().getImageFileName()+"."+apiRequest.getImage().getImageType());
+            map.putString("Solace_transcationid", apiRequest.getTransactionId());
+            map.putString("Solace_fileName.fileExtension", apiRequest.getImage().getImageFileName() + "." + apiRequest.getImage().getImageType());
+            if(imagePresentFlag) {
+                map.putString("Solace_imagePresentFlag", "true");
+            }
+            else {
+                map.putString("Solace_imagePresentFlag", "false");
+            }
 
             jcsmpMsg.setProperties(map);
             jcsmpMsg.setDeliveryMode(DeliveryMode.PERSISTENT);
