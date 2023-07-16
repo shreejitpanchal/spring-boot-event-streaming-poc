@@ -26,7 +26,7 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
     @Autowired
     private UpdateImageStreamResponse updateImageStreamResponse;
 
-    public String imagePresentFlag="false";
+    public String imagePresentFlag;
     String fileLocation;
     public void run(String... strings) throws Exception {
         final JCSMPSession session = solaceFactory.createSession();
@@ -53,6 +53,7 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
         final FlowReceiver cons = session.createFlow(new XMLMessageListener() {
             @Override
             public void onReceive(BytesXMLMessage msg) {
+                imagePresentFlag="false";
                 String localSubFileUploadDir="";
                 if (msg instanceof TextMessage) {
                     logger.info("TextMessage received: '%s'%n", ((TextMessage) msg).getText());

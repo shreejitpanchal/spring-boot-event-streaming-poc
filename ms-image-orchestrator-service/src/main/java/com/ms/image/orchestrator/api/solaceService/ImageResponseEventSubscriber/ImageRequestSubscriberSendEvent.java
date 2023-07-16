@@ -27,13 +27,14 @@ public class ImageRequestSubscriberSendEvent {
     private String topicName;
     @Autowired
     private SpringJCSMPFactory solaceFactory;
-    byte[] data = new byte[0];
 
-    public boolean imagePresentFlag=true;
+    public boolean imagePresentFlag;
     @Autowired
     private ConfigPublishEventHandler configPublishEventHandler;
 
     public boolean sendEvent(EDAPublishCreateImageEventRequest apiRequest) {
+        imagePresentFlag=true;
+        byte[] data = new byte[0];
         logger.info("ImageRequestSubscriberSendEvent API === Request ==> Start");
         String localTopicName = topicName + apiRequest.getImage().getImageId() + "/" + apiRequest.getImage().getUserId() + "/" + apiRequest.getImage().getImageFileName() + "/" + apiRequest.getImage().getImageType(); // Add ImageFileName and Image Type in Topic Hierarchy of the event
         final Topic topic = JCSMPFactory.onlyInstance().createTopic(localTopicName);
