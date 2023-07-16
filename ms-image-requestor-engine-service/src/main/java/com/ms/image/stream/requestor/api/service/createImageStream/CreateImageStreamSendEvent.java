@@ -36,8 +36,8 @@ public class CreateImageStreamSendEvent {
 
     public boolean sendEvent(CreateImageStreamAPIRequest apiRequest, String imageId) {
         logger.info("CreateImageStreamSendEvent API === Request ==> Start");
-        topicName += imageId + "/" + apiRequest.getImageRequest().getUserId() + "/" + apiRequest.getImageRequest().getImageFileName() + "/" + apiRequest.getImageRequest().getImageType(); // Add ImageFileName and Image Type in Topic Hierarchy of the event
-        final Topic topic = JCSMPFactory.onlyInstance().createTopic(topicName);
+        String localTopicName =topicName + imageId + "/" + apiRequest.getImageRequest().getUserId() + "/" + apiRequest.getImageRequest().getImageFileName() + "/" + apiRequest.getImageRequest().getImageType(); // Add ImageFileName and Image Type in Topic Hierarchy of the event
+        final Topic topic = JCSMPFactory.onlyInstance().createTopic(localTopicName);
 
         EDAPublishCreateImageEventRequest.image edaPublishImageDtl = new EDAPublishCreateImageEventRequest.image();
 
@@ -57,7 +57,7 @@ public class CreateImageStreamSendEvent {
         try {
             String eventJsonString = jsonMapper.writerWithDefaultPrettyPrinter()
                     .writeValueAsString(edaPublishCreateImageEventRequest);
-            logger.info("CreateImageStreamSendEvent Step 2 === EDA Topic publish on : " + topicName + "\n jsonPayload : " + eventJsonString);
+            logger.info("CreateImageStreamSendEvent Step 2 === EDA Topic publish on : " + localTopicName + "\n jsonPayload : " + eventJsonString);
 
             final JCSMPSession session = solaceFactory.createSession();
             XMLMessageProducer pubEventObj = session.getMessageProducer(configPublishEventHandler);

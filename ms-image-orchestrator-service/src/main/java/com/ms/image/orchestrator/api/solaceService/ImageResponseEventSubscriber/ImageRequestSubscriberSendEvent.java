@@ -35,8 +35,8 @@ public class ImageRequestSubscriberSendEvent {
 
     public boolean sendEvent(EDAPublishCreateImageEventRequest apiRequest) {
         logger.info("ImageRequestSubscriberSendEvent API === Request ==> Start");
-        topicName += apiRequest.getImage().getImageId() + "/" + apiRequest.getImage().getUserId() + "/" + apiRequest.getImage().getImageFileName() + "/" + apiRequest.getImage().getImageType(); // Add ImageFileName and Image Type in Topic Hierarchy of the event
-        final Topic topic = JCSMPFactory.onlyInstance().createTopic(topicName);
+        String localTopicName = topicName + apiRequest.getImage().getImageId() + "/" + apiRequest.getImage().getUserId() + "/" + apiRequest.getImage().getImageFileName() + "/" + apiRequest.getImage().getImageType(); // Add ImageFileName and Image Type in Topic Hierarchy of the event
+        final Topic topic = JCSMPFactory.onlyInstance().createTopic(localTopicName);
 
         String localFileHolder = imageHubFolder + apiRequest.getImage().getImageFileName() + "." + apiRequest.getImage().getImageType();
         logger.info("Loading Image from Hub via path ==>" + localFileHolder);
@@ -49,7 +49,7 @@ public class ImageRequestSubscriberSendEvent {
             logger.error("ImageRequestSubscriberSendEvent Error while reading file - " + e.getStackTrace());
         }
 
-        logger.info("ImageRequestSubscriberSendEvent Step 2 === EDA Topic publish on : " + topicName);
+        logger.info("ImageRequestSubscriberSendEvent Step 2 === EDA Topic publish on : " + localTopicName);
 
         try {
 
@@ -63,9 +63,11 @@ public class ImageRequestSubscriberSendEvent {
             map.putString("Solace_transcationid", apiRequest.getTransactionId());
             map.putString("Solace_fileName.fileExtension", apiRequest.getImage().getImageFileName() + "." + apiRequest.getImage().getImageType());
             if(imagePresentFlag) {
+                logger.info(":: Image Loaded Successfully ::");
                 map.putString("Solace_imagePresentFlag", "true");
             }
             else {
+                logger.info(":: Image not found ::");
                 map.putString("Solace_imagePresentFlag", "false");
             }
 

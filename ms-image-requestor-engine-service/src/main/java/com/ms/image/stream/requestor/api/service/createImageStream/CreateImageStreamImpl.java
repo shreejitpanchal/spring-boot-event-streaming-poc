@@ -39,7 +39,7 @@ public class CreateImageStreamImpl implements CreateImageStream {
 
     @Autowired
     private CreateImageStreamValidation createImageStreamValidation;
-    @Value("${eda.order.initial.status.value}")
+    @Value("${eda.event.initial.status.value}")
     private String initialStatusValue;
 
     @Override
@@ -69,25 +69,30 @@ public class CreateImageStreamImpl implements CreateImageStream {
             return CreateImageStreamAPIResponse.builder()
                     .imageResponse(imageResponseDtl.builder().imageStreamStatus("Error").imageStreamDesc("DB-Persist-Err").build())
                     .correlationId(apiRequest.getCorrelationId())
+                    .transactionId(apiRequest.getTransactionId())
                     .build();
 
         if (createImageStreamSendEvent.sendEvent(apiRequest, imageId))
             return CreateImageStreamAPIResponse.builder()
-                    .imageResponse(imageResponseDtl.builder().imageStreamStatus("Error").imageStreamDesc("Send-Event-Err").build())
                     .correlationId(apiRequest.getCorrelationId())
+                    .transactionId(apiRequest.getTransactionId())
+                    .imageResponse(imageResponseDtl.builder()
+                            .imageId(imageId)
+                            .userId(apiRequest.getImageRequest().getUserId())
+                            .customerName(apiRequest.getImageRequest().getCustomerName())
+                            .imageFileName(apiRequest.getImageRequest().getImageFileName())
+                            .requestDateTime(apiRequest.getImageRequest().getRequestDateTime())
+                            .imageStreamStatus(initialStatusValue)
+                            .imageStreamDesc("Published Event to EDA Successfully")
+                            .build())
                     .build();
 
 
-        logger.info("Step-3 === createImageStream Successful ==> End");
+
+        logger.info("Step-3 === createImageStream Error ==> End");
         return CreateImageStreamAPIResponse.builder()
-                .imageResponse(imageResponseDtl.builder()
-                        .userId(imageId)
-                        .customerName(apiRequest.getImageRequest().getCustomerName())
-                        .imageFileName(apiRequest.getImageRequest().getImageFileName())
-                        .requestDateTime(apiRequest.getImageRequest().getRequestDateTime())
-                        .imageStreamStatus(initialStatusValue)
-                        .imageStreamDesc("Published Event to EDA Successfully")
-                        .build())
+                .imageResponse(imageResponseDtl.builder().imageStreamStatus("Error").imageStreamDesc("Send-Event-Err").build())
+                .correlationId(apiRequest.getCorrelationId())
                 .build();
     }
 

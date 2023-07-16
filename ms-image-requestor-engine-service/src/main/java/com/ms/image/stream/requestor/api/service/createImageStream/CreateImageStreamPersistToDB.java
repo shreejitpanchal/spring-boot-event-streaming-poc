@@ -26,7 +26,7 @@ public class CreateImageStreamPersistToDB {
     Logger logger = LoggerFactory.getLogger(CreateImageStreamPersistToDB.class);
     @Autowired
     private ImageRequestorServiceRepository imageRequestorServiceRepository;
-    @Value("${eda.order.initial.status.value}")
+    @Value("${eda.event.initial.status.value}")
     private String initialStatusValue;
 
     public boolean saveOrderRecord(CreateImageStreamAPIRequest apiRequest, CreateImageStreamAPIResponse.imageResponse imageResponseDtl, String imageId, LocalDateTime currrentDateTime) {
