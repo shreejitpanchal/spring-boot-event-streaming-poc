@@ -17,6 +17,8 @@ import java.util.concurrent.CountDownLatch;
 public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageResponseEventSubscriberImpl.class);
+    public String imagePresentFlag;
+    String fileLocation;
     @Value("${app.image.requestor.temp.file.holder.path}")
     private String subFileUploadDir;
     @Value("${eda.poc.image.service.provider.response}")
@@ -26,8 +28,6 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
     @Autowired
     private UpdateImageStreamResponse updateImageStreamResponse;
 
-    public String imagePresentFlag;
-    String fileLocation;
     public void run(String... strings) throws Exception {
         final JCSMPSession session = solaceFactory.createSession();
         session.connect();
@@ -53,8 +53,8 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
         final FlowReceiver cons = session.createFlow(new XMLMessageListener() {
             @Override
             public void onReceive(BytesXMLMessage msg) {
-                imagePresentFlag="false";
-                String localSubFileUploadDir="";
+                imagePresentFlag = "false";
+                String localSubFileUploadDir = "";
                 if (msg instanceof TextMessage) {
                     logger.info("TextMessage received: '%s'%n", ((TextMessage) msg).getText());
                     logger.info("Unsupported type for this interface should be ByteMessage Type");
@@ -63,15 +63,15 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
                         logger.info("Property Value of JMS_Solace_HTTP_field_transcationid -->" + msg.getProperties().getString("JMS_Solace_HTTP_field_transcationid"));
                         logger.info("Property Value of Solace_fileName.fileExtension -->" + msg.getProperties().getString("Solace_fileName.fileExtension"));
                         logger.info("Property Value of Solace_imagePresentFlag -->" + msg.getProperties().getString("Solace_imagePresentFlag"));
-                        imagePresentFlag=msg.getProperties().getString("Solace_imagePresentFlag");
+                        imagePresentFlag = msg.getProperties().getString("Solace_imagePresentFlag");
 
-                        localSubFileUploadDir =  subFileUploadDir + msg.getProperties().getString("Solace_fileName.fileExtension");
+                        localSubFileUploadDir = subFileUploadDir + msg.getProperties().getString("Solace_fileName.fileExtension");
                     } catch (SDTException e) {
                         throw new RuntimeException(e);
                     }
                     logger.info("Message received.");
                     msg.ackMessage();
-                    if(imagePresentFlag.equals("true")) {
+                    if (imagePresentFlag.equals("true")) {
                         logger.info("::: Image found at remote site :::");
                         File file = new File(localSubFileUploadDir);
                         try
@@ -82,16 +82,15 @@ public class ImageResponseEventSubscriberImpl implements CommandLineRunner {
                             logger.info("Successfully written data to the file");
 
                             // update to DB
-                            updateImageStreamResponse.updateImage(msg,"true");
+                            updateImageStreamResponse.updateImage(msg, "true");
 
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else{
+                    } else {
                         logger.info("::: No Image found at remote site :::");
                         // update to DB
-                        updateImageStreamResponse.updateImage(msg,"false");
+                        updateImageStreamResponse.updateImage(msg, "false");
                     }
                 }
                 msg.ackMessage();
