@@ -14,7 +14,7 @@ https://projectlombok.org/setup/intellij
 3: Maven Steps for Build & Install below:
 ``` bash
 cd ms-image-orchestrator-service
-mvn clean install
+mvn clean install -DskipTests
 ```
 
 ## Running the Samples

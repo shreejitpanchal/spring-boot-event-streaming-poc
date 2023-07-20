@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-image-orchestrator-service</name>
 	<description>Solace Event Streaming POC ms-image-orchestrator-service MS project</description>
+	<packaging>jar</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -69,6 +70,25 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>spring-boot</classifier>
+							<outputDirectory>../target</outputDirectory>
+							<includeSystemScope>true</includeSystemScope>
+							<mainClass>
+								com.ms.image.orchestrator.api.ImageOrchestratorServiceApplication
+							</mainClass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

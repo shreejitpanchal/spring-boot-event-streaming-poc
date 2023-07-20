@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>com.solace</groupId>
 	<artifactId>ms-image-requestor-engine-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ms-image-requestor-engine-service</name>
 	<description>Solace Event Streaming POC image-requestor-engine-service MS project</description>
+	<packaging>jar</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -104,6 +105,25 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>spring-boot</classifier>
+							<outputDirectory>../target</outputDirectory>
+							<includeSystemScope>true</includeSystemScope>
+							<mainClass>
+								com.ms.image.stream.requestor.api.ImageStreamRequestorServiceApplication
+							</mainClass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

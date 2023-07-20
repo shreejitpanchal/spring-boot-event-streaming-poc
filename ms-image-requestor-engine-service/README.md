@@ -14,7 +14,7 @@ https://projectlombok.org/setup/intellij
 3: Maven Steps for Build & Install below:
 ``` bash
 cd ms-image-requestor-engine-service
-mvn clean install
+mvn clean install -DskipTests
 ```
 
 ## Running the Samples
@@ -24,6 +24,8 @@ To try individual samples, go into the project directory and run the sample usin
 ``` bash
 cd ms-image-requestor-engine-service
 mvn spring-boot:run
+or
+java -jar .\target\ms-image-requestor-engine-service-1.0.0.jar
 
 Browse Swagger API to fire input
 http://localhost:9991/swagger-ui.html
