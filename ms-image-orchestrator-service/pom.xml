@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.solace</groupId>
 	<artifactId>ms-image-orchestrator-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ms-image-orchestrator-service</name>
 	<description>Solace Event Streaming POC ms-image-orchestrator-service MS project</description>
 	<packaging>jar</packaging>
