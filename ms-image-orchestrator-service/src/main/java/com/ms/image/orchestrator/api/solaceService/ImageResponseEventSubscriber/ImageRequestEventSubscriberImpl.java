@@ -21,7 +21,7 @@ public class ImageRequestEventSubscriberImpl implements CommandLineRunner {
     @Autowired
     private SpringJCSMPFactory solaceFactory;
     @Autowired
-    private ImageRequestSubscriberOrch imageRequestSubscriberOrch;
+    private ImageRequestSubscriberOrchv2 imageRequestSubscriberOrch;
 
     public void run(String... strings) throws Exception {
         final JCSMPSession session = solaceFactory.createSession();
