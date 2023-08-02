@@ -28,12 +28,5 @@ public class CloudHubService {
             @RequestBody CreateImageRequestAPIRequest apiRequest) {
         return createImageRequest.createImageRequest(apiRequest);
     }
-//    @RequestMapping(value = "/sim", consumes = "application/json",
-//            produces = "application/json", method = RequestMethod.POST)
-//    public void simRequest(@RequestBody String temp) {
-//        System.out.println("---> sim url activiated <---");
-//        System.out.println("--> Print Payload Start --> "+temp+" <<-- Print Payload End");
-//
-//    }
 
 }

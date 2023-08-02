@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Microservice Application for Image Orchestrator Service
+ * Microservice Application for Image Cloud Service
  *
  * @author Shreejit Panchal
  * @version 1.0

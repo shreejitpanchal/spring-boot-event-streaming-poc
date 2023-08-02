@@ -13,11 +13,6 @@ import org.springframework.stereotype.Service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * Create Image Processing Service
@@ -29,18 +24,19 @@ import java.util.Random;
 @Service
 public class CreateImageRequestImpl implements CreateImageRequest {
 
-    Logger logger = LoggerFactory.getLogger(CreateImageRequestImpl.class);
-    @Value("${app.image.orchestrator.hub.path}")
-    private String imageHubFolder;
     public boolean imagePresentFlag;
     @Autowired
     public PostRequest postRequest;
+    Logger logger = LoggerFactory.getLogger(CreateImageRequestImpl.class);
+    @Value("${app.image.orchestrator.hub.path}")
+    private String imageHubFolder;
+
     @Override
     public CreateImageRequestAPIResponse createImageRequest(CreateImageRequestAPIRequest apiRequest) {
 
         logger.info("API === createImage Request ==> Start");
 
-        imagePresentFlag=true;
+        imagePresentFlag = true;
         byte[] data = new byte[0];
 
         String localFileHolder = imageHubFolder + apiRequest.getImageFileName() + "." + apiRequest.getImageType();
@@ -50,15 +46,14 @@ public class CreateImageRequestImpl implements CreateImageRequest {
         try {
             data = Files.readAllBytes(path);
         } catch (Exception e) {
-            imagePresentFlag=false;
+            imagePresentFlag = false;
             logger.error("ImageRequestSubscriberSendEvent Error while reading file - " + e);
         }
 
-        if(imagePresentFlag) {
+        if (imagePresentFlag) {
             logger.info(":: Image Loaded Successfully ::");
             postRequest.sendPost(apiRequest, data);
-        }
-        else {
+        } else {
             logger.info(":: Image not found ::");
         }
 

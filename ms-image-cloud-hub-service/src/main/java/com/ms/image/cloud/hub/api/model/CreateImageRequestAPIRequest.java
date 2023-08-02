@@ -2,10 +2,7 @@ package com.ms.image.cloud.hub.api.model;
 
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
-
-import java.time.ZonedDateTime;
 
 @Component
 @Getter
