@@ -27,4 +27,4 @@ The Spring Tutorials require that you have access to a PubSub+ Service. You can 
 
 -- Step 6: Configure Bridge between Intranet and Internet service and add Bridge Subscription to individual service as below:
 ![solace-step6.png](resources/solace-step6.png)
-![solace-step7.png](resources/solace-step7png)
+![solace-step7.png](resources/solace-step7.png)
